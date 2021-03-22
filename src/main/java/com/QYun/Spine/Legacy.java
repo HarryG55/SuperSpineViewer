@@ -31,13 +31,11 @@ public class Legacy extends SuperSpine {
         }
     };
     private ChangeListener<String> animateListener = (observable, oldValue, newValue) -> {
-        if (state != null) {
-            if (newValue != null) {
-                state.setAnimation(0, newValue, isLoop.get());
-                isPlay.set(true);
-            } else
-                isPlay.set(false);
-        }
+        if (newValue != null) {
+            state.setAnimation(0, newValue, isLoop.get());
+            isPlay.set(true);
+        } else
+            isPlay.set(false);
     };
     private ChangeListener<Boolean> isLoopListener = (observable, oldValue, newValue) -> {
         if (state != null) {

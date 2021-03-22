@@ -1,9 +1,12 @@
 # SuperSpineViewer
 
+[**For English User**](https://github.com/Aloento/SuperSpineViewer/blob/master/README-Eng.md)
+
 一个拿来加载与导出Spine动画的工具  
 至少需要Java15才能运行  
 或使用打包好的exe程序  
-当前版本：0.1.28
+导出MOV需要FFmpeg  
+当前版本：1.0.4
 
 ![霜叶](https://i0.hdslb.com/bfs/album/98b4fd8a12bc6dbf691b967bed625db67713dff0.png@518w.png "明日方舟 - 霜叶")
 
@@ -29,16 +32,16 @@ Spine Universal LibGDX Runtimes
 
 目前渲染实现会占用大量不必要的带宽  
 在DriftFX稳定后会尝试迁移  
-目前要求系统支持像素缓冲区  
+目前要求系统支持像素缓冲区
 
 如果出现 [（这其实是JDK的一个Bug）](https://bugs.openjdk.java.net/browse/JDK-8192647)  
-`[warning][gc,alloc] SavePNG: Retried waiting for GCLocker too often allocating &d words`  
+`[warning][gc,alloc] SavePNG: Retried waiting for GCLocker too often allocating %d words`  
 则说明内存回收时出现问题  
 这种情况下一定会丢帧，卡顿  
 并且FFmpeg处理时会卡住  
 这时只能重启程序解决  
 请调整JVM参数以允许更多内存分配  
-或者降低分辨率或质量与提高性能  
+或者降低分辨率或质量与提高性能
 
 ### 性能设置参考
 
@@ -48,15 +51,15 @@ Spine Universal LibGDX Runtimes
 
 **RAM**:
 
-    4G+ = Extreme
-    3G~ = Standard
-    2G~ = Fast
+    4G+ = Extreme (240FPS)
+    3G~ = Standard (120FPS)
+    2G~ = Fast (60FPS)
 
 **CPU**
 
-    高性能 = High
-    普通 = Normal
-    低压 = Low
+    高性能 = High (12)
+    普通 = Normal (6)
+    低压 = Low （3）
 
 ### 序列使用参考
 
@@ -85,6 +88,7 @@ Spine Universal LibGDX Runtimes
 * 调整性能质量
 
 ### 支持的版本
+
 * Spine 2.x ×
 * Spine 3.1 √
 * Spine 3.2 √
@@ -98,10 +102,21 @@ Spine Universal LibGDX Runtimes
 
 ## 画廊
 
-![首屏](https://i0.hdslb.com/bfs/album/73fdec47d907dc42e96a2d0d21482680fd7efb3f.png "首屏加载画面")
-![霜叶](https://i0.hdslb.com/bfs/album/98b4fd8a12bc6dbf691b967bed625db67713dff0.png  "明日方舟 - 霜叶")
-![德克萨斯](https://i0.hdslb.com/bfs/album/79dbdaee161130460b77411f4664b4ecbd53d68e.png "明日方舟 - 德克萨斯")
-![闪灵](https://i0.hdslb.com/bfs/album/56d918333fd302f9c221680008d7109fe090fb39.png "明日方舟 - 闪灵")
-![凯留](https://i0.hdslb.com/bfs/album/8ad8f6ca661f68909b30edce518d47614162a78f.png "公主连结 - 凯留")
-![湊阿库娅](https://i0.hdslb.com/bfs/album/51ee6aa61652191d4ab6c27a6e18bf8dc1997fdc.png "方舟指令 - 湊阿库娅")
-![万象物语](https://i0.hdslb.com/bfs/album/0919e8d269e355c9b451d52e887c314a84f47faa.png "万象物语")
+<html>
+    <table style="margin-left: auto; margin-right: auto;">
+        <tr>
+            <td>
+                <img src="https://i0.hdslb.com/bfs/album/73fdec47d907dc42e96a2d0d21482680fd7efb3f.png" alt="首屏加载画面">
+                <img src="https://i0.hdslb.com/bfs/album/697ebe690460ee8a1f50a7bb4c4f973331b244dd.png" alt="Spine信息与导出">
+                <img src="https://i0.hdslb.com/bfs/album/98b4fd8a12bc6dbf691b967bed625db67713dff0.png" alt="明日方舟 - 霜叶">
+                <img src="https://i0.hdslb.com/bfs/album/79dbdaee161130460b77411f4664b4ecbd53d68e.png" alt="明日方舟 - 德克萨斯">
+            </td>
+            <td>
+                <img src="https://i0.hdslb.com/bfs/album/56d918333fd302f9c221680008d7109fe090fb39.png" alt="明日方舟 - 闪灵">
+                <img src="https://i0.hdslb.com/bfs/album/8ad8f6ca661f68909b30edce518d47614162a78f.png" alt="公主连结 - 凯留">
+                <img src="https://i0.hdslb.com/bfs/album/51ee6aa61652191d4ab6c27a6e18bf8dc1997fdc.png" alt="方舟指令 - 湊阿库娅">
+                <img src="https://i0.hdslb.com/bfs/album/0919e8d269e355c9b451d52e887c314a84f47faa.png" alt="万象物语">
+            </td>
+        </tr>
+    </table>
+</html>

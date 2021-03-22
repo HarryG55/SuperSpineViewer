@@ -22,10 +22,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
@@ -39,34 +36,34 @@ import static javafx.animation.Interpolator.EASE_BOTH;
 
 public class Spine extends Main implements Initializable {
     @FXML
-    private StackPane spinePane;
+    private BorderPane Viewer;
 
     @FXML
-    private ImageView SpineRender;
+    private StackPane spinePane;
 
     @FXML
     private StackPane loadPane;
 
     @FXML
-    private JFXSpinner purpleSpinner;
+    private JFXSpinner purple;
 
     @FXML
-    private JFXSpinner blueSpinner;
+    private JFXSpinner blue;
 
     @FXML
-    private JFXSpinner cyanSpinner;
+    private JFXSpinner cyan;
 
     @FXML
-    private JFXSpinner greenSpinner;
+    private JFXSpinner green;
 
     @FXML
-    private JFXSpinner yellowSpinner;
+    private JFXSpinner yellow;
 
     @FXML
-    private JFXSpinner orangeSpinner;
+    private JFXSpinner orange;
 
     @FXML
-    private JFXSpinner redSpinner;
+    private JFXSpinner red;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -123,8 +120,8 @@ public class Spine extends Main implements Initializable {
         JFXSlider S_Speed = new JFXSlider();
         S_Speed.setSnapToTicks(true);
         S_Speed.setShowTickLabels(true);
-        S_Speed.setMin(0.5);
-        S_Speed.setMax(2.5);
+        S_Speed.setMin(0.25);
+        S_Speed.setMax(2.0);
         S_Speed.setMajorTickUnit(0.25);
         S_Speed.setBlockIncrement(0.25);
         S_Speed.setValue(1);
@@ -196,16 +193,14 @@ public class Spine extends Main implements Initializable {
         JFXDepthManager.setDepth(spinePane, 1);
         spinePane.getChildren().addAll(content, playButton);
 
-        spineRender = SpineRender;
-        Platform.runLater(() -> {
-            SpineRender.fitHeightProperty().bind(SpineRender.getScene().heightProperty().add(-103));
-            SpineRender.fitWidthProperty().bind(SpineRender.getScene().widthProperty().add(-368));
-        });
-        SpineRender.fitWidthProperty().addListener((observable, oldValue, newValue) -> {
+        spineRender = new ImageView();
+        spineRender.setScaleY(-1);
+
+        spineRender.fitWidthProperty().addListener((observable, oldValue, newValue) -> {
             T_Width.setPromptText(String.valueOf(newValue.intValue()));
             width = newValue.intValue();
         });
-        SpineRender.fitHeightProperty().addListener((observable, oldValue, newValue) -> {
+        spineRender.fitHeightProperty().addListener((observable, oldValue, newValue) -> {
             T_Height.setPromptText(String.valueOf(newValue.intValue()));
             height = newValue.intValue();
         });
@@ -292,6 +287,7 @@ public class Spine extends Main implements Initializable {
             spine.setAnimate(null);
             spine.setSpeed(1);
             spine.setIsPlay(false);
+            System.gc();
         });
 
         C_Skins.setOnAction(event -> spine.setSkin(C_Skins.getValue()));
@@ -299,43 +295,50 @@ public class Spine extends Main implements Initializable {
         C_Animate.setOnAction(event -> spine.setAnimate(C_Animate.getValue()));
     }
 
-    public void isLoaded() {
-        new Thread(() -> {
-            isLoad = true;
-            try {
-                setProgressAnimate(purpleSpinner);
-                Thread.sleep(100);
-                setProgressAnimate(blueSpinner);
-                Thread.sleep(100);
-                setProgressAnimate(cyanSpinner);
-                Thread.sleep(100);
-                setProgressAnimate(greenSpinner);
-                Thread.sleep(100);
-                setProgressAnimate(yellowSpinner);
-                Thread.sleep(100);
-                setProgressAnimate(orangeSpinner);
-                Thread.sleep(100);
-                setProgressAnimate(redSpinner);
-                Thread.sleep(1000);
-                Timeline paneLine = new Timeline(
-                        new KeyFrame(
-                                Duration.seconds(1),
-                                new KeyValue(loadPane.opacityProperty(), 0)
-                        )
-                );
-                paneLine.play();
-                Thread.sleep(500);
-                Timeline viewerLine = new Timeline(
-                        new KeyFrame(
-                                Duration.seconds(1),
-                                new KeyValue(SpineRender.opacityProperty(), 1)
-                        )
-                );
-                viewerLine.play();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+    public boolean isLoaded() {
+        try {
+            setProgressAnimate(purple);
+            Thread.sleep(100);
+            setProgressAnimate(blue);
+            Thread.sleep(100);
+            setProgressAnimate(cyan);
+            Thread.sleep(100);
+            setProgressAnimate(green);
+            Thread.sleep(100);
+            setProgressAnimate(yellow);
+            Thread.sleep(100);
+            setProgressAnimate(orange);
+            Thread.sleep(100);
+            setProgressAnimate(red);
+            Thread.sleep(1000);
+            Timeline paneLine = new Timeline(
+                    new KeyFrame(
+                            Duration.seconds(1),
+                            new KeyValue(loadPane.opacityProperty(), 0)
+                    )
+            );
+            paneLine.play();
+            Thread.sleep(800);
+            Platform.runLater(() -> {
+                loadPane.getChildren().removeAll(purple, blue, cyan, green, yellow, orange, red);
+                Viewer.getChildren().remove(loadPane);
+                Viewer.setCenter(spineRender);
+                spineRender.fitHeightProperty().bind(spineRender.getScene().heightProperty().add(-103));
+                spineRender.fitWidthProperty().bind(spineRender.getScene().widthProperty().add(-368));
+                Viewer = null;
+                loadPane = null;
+                purple = null;
+                blue = null;
+                cyan = null;
+                green = null;
+                yellow = null;
+                orange = null;
+                red = null;
+            });
+            return isLoad = true;
+        } catch (InterruptedException ignored) {
+            return false;
+        }
     }
 
     private void setProgressAnimate(JFXSpinner spinner) {
