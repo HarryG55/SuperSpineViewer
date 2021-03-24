@@ -199,10 +199,12 @@ public class Spine extends Main implements Initializable {
         spineRender.fitWidthProperty().addListener((observable, oldValue, newValue) -> {
             T_Width.setPromptText(String.valueOf(newValue.intValue()));
             width = newValue.intValue();
+            Pref.putDouble("stageWidth", newValue.doubleValue() + 368);
         });
         spineRender.fitHeightProperty().addListener((observable, oldValue, newValue) -> {
             T_Height.setPromptText(String.valueOf(newValue.intValue()));
             height = newValue.intValue();
+            Pref.putDouble("stageHeight", newValue.doubleValue() + 103);
         });
 
         C_Skins.setItems(spine.getSkinsList());
@@ -283,10 +285,14 @@ public class Spine extends Main implements Initializable {
             spine.setScale(1);
             spine.setX(0);
             spine.setY(-200f);
-            spine.setSkin(null);
-            spine.setAnimate(null);
-            spine.setSpeed(1);
             spine.setIsPlay(false);
+
+            T_Scale.clear();
+            T_X.clear();
+            T_Y.clear();
+            C_Skins.setValue(null);
+            C_Animate.setValue(null);
+            S_Speed.setValue(1);
             System.gc();
         });
 

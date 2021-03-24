@@ -51,6 +51,10 @@ public class Exporter extends Main implements Initializable {
     void B_Open() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Skeleton");
+        File last = new File(Pref.get("lastOpen", System.getProperty("user.home")));
+        if (!last.canRead())
+            last = new File(System.getProperty("user.home"));
+        fileChooser.setInitialDirectory(last);
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Skeleton File", "*.json", "*.skel", "*.txt", "*.bytes")
@@ -62,6 +66,7 @@ public class Exporter extends Main implements Initializable {
             new Loader().init();
             if (isLoad) System.out.println("请求重载");
             else System.out.println("请求初始化");
+            Pref.put("lastOpen", file.getParent());
         }
     }
 
@@ -69,10 +74,15 @@ public class Exporter extends Main implements Initializable {
     void B_Path() {
         Platform.runLater(() -> {
             DirectoryChooser chooser = new DirectoryChooser();
-            chooser.setTitle("Sava Location");
+            File last = new File(outPath);
+            if (!last.canRead())
+                last = new File(System.getProperty("user.home"));
+            chooser.setInitialDirectory(last.getParentFile());
+            chooser.setTitle("Save Location");
             File direc = chooser.showDialog(new Stage());
             outPath = direc.getAbsolutePath() + File.separator;
             T_Path.setText(outPath);
+            Pref.put("lastSave", outPath);
         });
     }
 
@@ -133,6 +143,7 @@ public class Exporter extends Main implements Initializable {
         Atlas = L_Atlas;
         recordFX = record;
         progressBar = P_Export;
+        T_Path.setText(outPath);
         spine.spineVersionProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> L_Version.setText("Version : " + newValue)));
 
         if (openPath != null) {

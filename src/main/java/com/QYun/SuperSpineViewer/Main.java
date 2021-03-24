@@ -7,6 +7,9 @@ import javafx.application.Application;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+
 public class Main {
     public static RecordFX recordFX;
     public static Spine spineController;
@@ -23,12 +26,18 @@ public class Main {
     public static boolean isLoad = false;
     public static boolean preA = true;
     public static boolean recording = false;
-    public static String outPath = null;
     public static String openPath = null;
+    public static Preferences Pref = Preferences.userRoot().node("/com/QYun/SuperSpineViewer");
+    public static String outPath = Pref.get("lastSave", System.getProperty("user.home"));
 
     public static void main(String[] args) {
         if (args.length > 0) {
-            openPath = args[0];
+            if (args[0].equals("reset")) {
+                try {
+                    Pref.clear();
+                } catch (BackingStoreException ignored) {
+                }
+            } else openPath = args[0];
         }
         Application.launch(Launcher.class, args);
     }
